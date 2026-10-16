@@ -6,7 +6,6 @@
     <meta name="description" content="ORGANIC Smile - متجرك الأول للفواكه المجففة والمنتجات الطبيعية الفاخرة 100% في مصر.">
     <meta name="theme-color" content="#0a0a0a">
 
-    <!-- تحسينات SEO ومشاركة السوشيال ميديا -->
     <meta property="og:title" content="ORGANIC Smile | فخامة الطبيعة في كل قضمة">
     <meta property="og:description" content="استمتع بأفخم الفواكه المجففة والمنتجات الطبيعية المختارة بعناية.">
     <meta property="og:image" content="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
@@ -15,21 +14,16 @@
 
     <title>ORGANIC Smile | فخامة الطبيعة في كل قضمة</title>
 
-    <!-- خطوط عربية وإنجليزية -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-    <!-- أيقونات FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- ربط ملف التنسيقات -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- تنسيقات العناصر الجديدة فقط (هتتنقل لـ style.css لما نحدثه) -->
     <style>
         section[id], #offersSection { scroll-margin-top: 90px; }
-        #adminProducts .product-card { cursor: pointer; }
-        #adminProducts .product-card:focus-visible { outline: 2px solid #E5C78B; outline-offset: 3px; }
+        #productsGrid .product-card { cursor: pointer; }
+        #productsGrid .product-card:focus-visible { outline: 2px solid #E5C78B; outline-offset: 3px; }
 
         .x-usage, .x-faq { padding: 80px 5%; background: #0a0a0a; color: #f4f1ea; }
         .x-usage { border-top: 1px solid rgba(201,169,97,.18); }
@@ -69,11 +63,10 @@
 </head>
 <body>
 
-    <!-- شريط التنقل -->
     <header class="navbar" id="navbar">
         <div class="logo">
             <a href="index.html">
-                <img src="logo.jpg" alt="ORGANIC Smile Logo" class="logo-img" width="150" height="50" onerror="this.src='https://via.placeholder.com/150x50/0a0a0a/C9A961?text=ORGANIC+Smile'">
+                <img src="images/logo.jpg" alt="ORGANIC Smile Logo" class="logo-img" width="150" height="50" onerror="this.src='https://via.placeholder.com/150x50/0a0a0a/C9A961?text=ORGANIC+Smile'">
             </a>
         </div>
 
@@ -104,7 +97,6 @@
     </header>
 
     <main>
-        <!-- البانر الرئيسي (الهيرو) -->
         <section class="hero-section">
             <div class="hero-content">
                 <div class="brand-tag">
@@ -133,15 +125,11 @@
         </section>
     </main>
 
-    <!-- نقطة وصول رابط "العروض" في القائمة -->
     <span id="offersSection"></span>
-
-    <!-- شريط البراند المتحرك (العروض) -->
     <div class="ticker-bar" id="tickerContainer">
         <div class="ticker-track" id="adminTicker"></div>
     </div>
 
-    <!-- قسم المنتجات -->
     <section class="featured-products" id="productsSection">
         <div class="section-header">
             <h2><span data-i18n="products_title_1">منتجاتنا</span> <span data-i18n="products_title_2">المميزة</span></h2>
@@ -154,7 +142,8 @@
             <button class="tab-btn" data-category="powder" data-i18n="cat_powder">بودر طبيعي</button>
         </div>
 
-        <div class="products-grid" id="adminProducts">
+        <!-- ID changed to productsGrid for the script fetch -->
+        <div class="products-grid" id="productsGrid">
             <div class="empty-state" id="productsEmptyState" style="display: none; grid-column: 1/-1; text-align: center; padding: 40px; color: #888;">
                 <i class="fa-solid fa-box-open" style="font-size: 40px; margin-bottom: 15px; color: #C9A961;"></i>
                 <p>لا توجد منتجات مضافة حالياً. تفضل بزيارتنا لاحقاً!</p>
@@ -162,31 +151,17 @@
         </div>
     </section>
 
-    <!-- عن البراند -->
     <section class="about-section" id="aboutSection">
         <div class="about-container">
             <div class="about-content">
                 <h2 data-i18n="about_title">قصتنا مع ORGANIC Smile</h2>
                 <p data-i18n="about_p1">نحن في ORGANIC Smile نؤمن بأن الطبيعة تقدم لنا أفضل ما لديها. نختار بعناية فائقة أجود أنواع الفواكه المجففة والمكسرات من مصادرها الطبيعية 100%.</p>
                 <p data-i18n="about_p2">هدفنا هو تقديم تجربة تسوق فاخرة تجمع بين الجودة العالية والمذاق الرائع، لنمنحك منتجات تليق بذوقك الرفيع وتحافظ على صحتك.</p>
-
                 <div class="about-features">
-                    <div class="feature-item">
-                        <i class="fa-solid fa-leaf"></i>
-                        <span data-i18n="feat1">100% طبيعي وعضوي</span>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fa-solid fa-award"></i>
-                        <span data-i18n="feat2">جودة مضمونة</span>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fa-solid fa-truck-fast"></i>
-                        <span data-i18n="feat3">توصيل سريع</span>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fa-solid fa-heart"></i>
-                        <span data-i18n="feat4">صحي ولذيذ</span>
-                    </div>
+                    <div class="feature-item"><i class="fa-solid fa-leaf"></i><span data-i18n="feat1">100% طبيعي وعضوي</span></div>
+                    <div class="feature-item"><i class="fa-solid fa-award"></i><span data-i18n="feat2">جودة مضمونة</span></div>
+                    <div class="feature-item"><i class="fa-solid fa-truck-fast"></i><span data-i18n="feat3">توصيل سريع</span></div>
+                    <div class="feature-item"><i class="fa-solid fa-heart"></i><span data-i18n="feat4">صحي ولذيذ</span></div>
                 </div>
             </div>
             <div class="about-image">
@@ -195,63 +170,32 @@
         </div>
     </section>
 
-    <!-- جديد: طريقة الاستخدام (كان الرابط في القائمة بدون قسم) -->
     <section class="x-usage" id="usageSection">
         <div class="x-head">
             <h2>طريقة الاستخدام</h2>
             <p>أفكار بسيطة تستمتع بيها بمنتجاتنا كل يوم</p>
         </div>
         <div class="x-usage-grid">
-            <div class="x-usage-card">
-                <i class="fa-solid fa-blender"></i>
-                <h3>سموذي وعصائر</h3>
-                <p>أضف البودر الطبيعي أو الفواكه المجففة المنقوعة إلى سموذي الصباح لنكهة غنية.</p>
-            </div>
-            <div class="x-usage-card">
-                <i class="fa-solid fa-bowl-food"></i>
-                <h3>فطار صحي</h3>
-                <p>رشّها فوق الشوفان أو الزبادي أو الكورن فليكس بدل السكر.</p>
-            </div>
-            <div class="x-usage-card">
-                <i class="fa-solid fa-cookie-bite"></i>
-                <h3>حلويات ومخبوزات</h3>
-                <p>استخدمها في الكيك والكوكيز والبراونيز لطعم طبيعي ولمسة فاخرة.</p>
-            </div>
-            <div class="x-usage-card">
-                <i class="fa-solid fa-jar"></i>
-                <h3>سناك وهدايا</h3>
-                <p>خفيفة في الحقيبة وجاهزة في أي وقت، وتصلح كهدية أنيقة.</p>
-            </div>
+            <div class="x-usage-card"><i class="fa-solid fa-blender"></i><h3>سموذي وعصائر</h3><p>أضف البودر الطبيعي أو الفواكه المجففة المنقوعة إلى سموذي الصباح لنكهة غنية.</p></div>
+            <div class="x-usage-card"><i class="fa-solid fa-bowl-food"></i><h3>فطار صحي</h3><p>رشّها فوق الشوفان أو الزبادي أو الكورن فليكس بدل السكر.</p></div>
+            <div class="x-usage-card"><i class="fa-solid fa-cookie-bite"></i><h3>حلويات ومخبوزات</h3><p>استخدمها في الكيك والكوكيز والبراونيز لطعم طبيعي ولمسة فاخرة.</p></div>
+            <div class="x-usage-card"><i class="fa-solid fa-jar"></i><h3>سناك وهدايا</h3><p>خفيفة في الحقيبة وجاهزة في أي وقت، وتصلح كهدية أنيقة.</p></div>
         </div>
     </section>
 
-    <!-- جديد: الأسئلة الشائعة -->
     <section class="x-faq" id="faqSection">
         <div class="x-head">
             <h2>أسئلة شائعة</h2>
             <p>إجابات سريعة قبل ما تطلب</p>
         </div>
         <div class="x-faq-list">
-            <details>
-                <summary>كيف أطلب من المتجر؟</summary>
-                <p>اختر المنتج والحجم المناسب، أضفه إلى السلة، واكتب بياناتك، ثم اضغط «إتمام الطلب عبر الواتساب» وسيصلنا طلبك مباشرة.</p>
-            </details>
-            <details>
-                <summary>هل أقدر أختار أكتر من حجم للمنتج؟</summary>
-                <p>نعم، كل منتج له أحجام وأسعار متعددة، ويمكنك إضافة أكثر من حجم أو منتج في نفس الطلب.</p>
-            </details>
-            <details>
-                <summary>كيف أحفظ المنتجات بعد الفتح؟</summary>
-                <p>الأفضل في علبة محكمة الغلق بعيداً عن الحرارة والرطوبة والشمس المباشرة للحفاظ على الطعم والقوام.</p>
-            </details>
-            <details>
-                <summary>كيف أتواصل معكم لو عندي استفسار؟</summary>
-                <p>تقدر تراسلنا على واتساب من الزر العائم، أو من بيانات التواصل في أسفل الصفحة.</p>
-            </details>
+            <details><summary>كيف أطلب من المتجر؟</summary><p>اختر المنتج والحجم المناسب، أضفه إلى السلة، واكتب بياناتك، ثم اضغط «إتمام الطلب عبر الواتساب» وسيصلنا طلبك مباشرة.</p></details>
+            <details><summary>هل أقدر أختار أكتر من حجم للمنتج؟</summary><p>نعم، كل منتج له أحجام وأسعار متعددة، ويمكنك إضافة أكثر من حجم أو منتج في نفس الطلب.</p></details>
+            <details><summary>كيف أحفظ المنتجات بعد الفتح؟</summary><p>الأفضل في علبة محكمة الغلق بعيداً عن الحرارة والرطوبة والشمس المباشرة للحفاظ على الطعم والقوام.</p></details>
+            <details><summary>كيف أتواصل معكم لو عندي استفسار؟</summary><p>تقدر تراسلنا على واتساب من الزر العائم، أو من بيانات التواصل في أسفل الصفحة.</p></details>
         </div>
     </section>
 
-    <!-- النشرة البريدية -->
     <section class="newsletter">
         <div class="newsletter-content">
             <h2 data-i18n="newsletter_title">اشترك في نشرتنا البريدية</h2>
@@ -263,7 +207,6 @@
         </div>
     </section>
 
-    <!-- الفوتر -->
     <footer class="footer" id="contactSection">
         <div class="footer-content">
             <div class="footer-section">
@@ -276,7 +219,6 @@
                     <a href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
                 </div>
             </div>
-
             <div class="footer-section">
                 <h3 data-i18n="footer_links">روابط سريعة</h3>
                 <ul>
@@ -286,7 +228,6 @@
                     <li><a href="#aboutSection" data-i18n="nav_story">قصتنا</a></li>
                 </ul>
             </div>
-
             <div class="footer-section">
                 <h3 data-i18n="footer_service">خدمة العملاء</h3>
                 <ul>
@@ -296,7 +237,6 @@
                     <li><a href="#" data-i18n="footer_privacy">سياسة الخصوصية</a></li>
                 </ul>
             </div>
-
             <div class="footer-section">
                 <h3 data-i18n="nav_contact">تواصل معنا</h3>
                 <p><i class="fa-solid fa-location-dot"></i> <span data-i18n="footer_location">القاهرة، مصر</span></p>
@@ -304,13 +244,11 @@
                 <p><i class="fa-solid fa-envelope"></i> info@organicsmile.com</p>
             </div>
         </div>
-
         <div class="footer-bottom">
             <p>&copy; 2026 ORGANIC Smile. جميع الحقوق محفوظة.</p>
         </div>
     </footer>
 
-    <!-- نافذة السلة المنبثقة -->
     <div class="cart-modal-overlay" id="cartModalOverlay">
         <div class="cart-modal">
             <div class="cart-modal-header">
@@ -324,14 +262,12 @@
                     <button class="btn btn-primary" id="continueShoppingBtn" style="margin-top: 15px; width: auto; padding: 8px 20px;">تصفح المنتجات</button>
                 </div>
             </div>
-
             <div class="cart-modal-footer" id="cartModalFooter" style="display: none;">
                 <div class="checkout-form" style="display: flex; flex-direction: column; gap: 10px; width: 100%; margin-bottom: 15px;">
                     <input type="text" id="clientName" placeholder="الاسم الكريم..." required autocomplete="name" style="padding: 12px; border-radius: 8px; border: 1px solid #C9A961; background: #000; color: #fff; outline: none; font-family: 'Tajawal', sans-serif;">
                     <input type="tel" id="clientPhone" placeholder="رقم الهاتف للتواصل..." required autocomplete="tel" inputmode="tel" style="padding: 12px; border-radius: 8px; border: 1px solid #C9A961; background: #000; color: #fff; outline: none; font-family: 'Tajawal', sans-serif;">
                     <textarea id="clientAddress" placeholder="عنوان التوصيل بالتفصيل (المحافظة، الشارع، رقم المبنى)..." rows="2" required autocomplete="street-address" style="padding: 12px; border-radius: 8px; border: 1px solid #C9A961; background: #000; color: #fff; outline: none; resize: none; font-family: 'Tajawal', sans-serif;"></textarea>
                 </div>
-
                 <div class="cart-total" style="width: 100%; display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 18px;">
                     <span>الإجمالي:</span>
                     <strong id="cartTotalPrice" style="color: #C9A961;">0 ج.م</strong>
@@ -343,7 +279,6 @@
         </div>
     </div>
 
-    <!-- نافذة منبثقة لعرض الصورة بحجم كبير -->
     <div class="image-viewer-overlay" id="imageViewerOverlay">
         <div class="image-viewer-content">
             <img src="" alt="Full size product image" id="fullSizeImage">
@@ -351,15 +286,13 @@
         </div>
     </div>
 
-    <!-- إشعارات النجاح (Toast Notification) -->
     <div id="toast" class="toast">تمت العملية بنجاح</div>
 
-    <!-- جديد: زر واتساب عائم + زر الرجوع للأعلى -->
     <a href="https://wa.me/201061429669" class="x-float x-whatsapp" target="_blank" rel="noopener" aria-label="تواصل معنا عبر واتساب"><i class="fa-brands fa-whatsapp"></i></a>
     <button type="button" class="x-float x-top" id="backToTop" aria-label="الرجوع للأعلى"><i class="fa-solid fa-chevron-up"></i></button>
 
+    <script src="config.js"></script>
     <script src="script.js"></script>
-    <script src="extras.js"></script>
     <script>
         (function () {
             var btn = document.getElementById('backToTop');

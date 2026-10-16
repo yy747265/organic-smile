@@ -838,3 +838,21 @@ body.en .cart-count {
     .about-container { grid-template-columns: 1fr; }
     .newsletter-form { flex-direction: column; }
 }
+/* ---- toast notification (was missing from the stylesheet) ---- */
+.toast {
+    position: fixed;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #151513;
+    color: #E5C78B;
+    border: 1px solid #C9A961;
+    padding: 12px 22px;
+    border-radius: 999px;
+    font-weight: 700;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s, transform .25s;
+    z-index: 3000;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }

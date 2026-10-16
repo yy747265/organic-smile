@@ -32,57 +32,6 @@
             line-height: 1.6;
         }
 
-        /* شاشة تسجيل الدخول */
-        #lockScreen {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: var(--bg);
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .locked #lockScreen { display: flex; }
-        .locked .admin-topbar, .locked .admin-wrapper { display: none !important; }
-        .lock-box {
-            width: 100%;
-            max-width: 380px;
-            background: var(--surface);
-            border: 1px solid var(--line);
-            border-radius: 20px;
-            padding: 34px 28px;
-            text-align: center;
-        }
-        .lock-icon {
-            width: 64px;
-            height: 64px;
-            margin: 0 auto 16px;
-            display: grid;
-            place-items: center;
-            font-size: 26px;
-            color: var(--gold);
-            background: var(--surface-2);
-            border-radius: 50%;
-        }
-        .lock-box h1 { color: var(--gold); font-size: 22px; margin: 0 0 6px; }
-        .lock-box p { color: var(--muted); font-size: 14px; margin: 0 0 20px; }
-        .lock-box input {
-            width: 100%;
-            padding: 12px 14px;
-            background: #000;
-            border: 1px solid var(--line);
-            color: #fff;
-            border-radius: 10px;
-            font-family: inherit;
-            font-size: 15px;
-            text-align: center;
-        }
-        .lock-box input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.18); }
-        .lock-error { color: #ff6b6f; font-size: 14px; min-height: 22px; margin-top: 12px; }
-        .lock-back { display: inline-block; margin-top: 18px; color: var(--muted); font-size: 14px; text-decoration: none; }
-        .lock-back:hover { color: var(--gold-light); }
-
         /* الشريط العلوي */
         .admin-topbar {
             position: sticky;
@@ -399,31 +348,8 @@
             * { transition: none !important; scroll-behavior: auto !important; }
         }
     </style>
-
-    <!-- نظام الحماية وكلمة المرور -->
-    <script>
-        var ADMIN_PASS = "rasha1234"; // كلمة المرور الخاصة بك
-        if (sessionStorage.getItem("organicAdminAuth") !== "true") {
-            document.documentElement.classList.add("locked");
-        }
-    </script>
 </head>
-<body class="locked">
-
-    <!-- شاشة إدخال كلمة المرور للآدمن -->
-    <div id="lockScreen" role="dialog" aria-labelledby="lockTitle">
-        <div class="lock-box">
-            <div class="lock-icon"><i class="fa-solid fa-lock"></i></div>
-            <h1 id="lockTitle">منطقة الإدارة المحمية</h1>
-            <p id="lockMsg">أدخل كلمة مرور المسؤول للمتابعة</p>
-            <form id="lockForm" onsubmit="checkPassword(event)">
-                <input type="password" id="lockPass" placeholder="كلمة المرور..." required autocomplete="current-password">
-                <button type="submit" class="btn-submit" id="lockBtn" style="margin-top: 14px;">دخول</button>
-            </form>
-            <div class="lock-error" id="lockError" role="alert"></div>
-            <a href="index.html" class="lock-back">العودة للموقع الرئيسي</a>
-        </div>
-    </div>
+<body>
 
     <header class="admin-topbar">
         <div class="topbar-inner">
@@ -432,8 +358,8 @@
                 <div>لوحة التحكم<small>ORGANIC Smile</small></div>
             </div>
             <div class="topbar-actions">
-                <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-right"></i> العودة للموقع</a>
-                <button type="button" class="back-link" id="logoutBtn" style="border-color: #e62227; color: #ff6b6f;"><i class="fa-solid fa-right-from-bracket"></i> قفل الصفحة</button>
+                <button type="button" id="changeTokenBtn" class="back-link"><i class="fa-solid fa-key"></i> مفتاح الإدارة</button>
+                <a href="../organic smile storefront/index.html" class="back-link"><i class="fa-solid fa-arrow-right"></i> العودة للموقع</a>
             </div>
         </div>
         <nav class="admin-nav">
@@ -536,35 +462,13 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- ربط الملفات البرمجية -->
     <script>
-        /* دالة التحقق من كلمة المرور */
-        function checkPassword(e) {
-            e.preventDefault();
-            var passInput = document.getElementById('lockPass');
-            var errDiv = document.getElementById('lockError');
-            
-            if (passInput.value === ADMIN_PASS) {
-                sessionStorage.setItem("organicAdminAuth", "true");
-                document.documentElement.classList.remove("locked");
-                document.body.classList.remove("locked");
-                errDiv.textContent = "";
-            } else {
-                errDiv.textContent = 'كلمة المرور غير صحيحة، حاول مرة أخرى.';
-                passInput.value = '';
-                passInput.focus();
-            }
-        }
-
-        /* زر الخروج وقفل الصفحة */
-        var logoutBtn = document.getElementById('logoutBtn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', function () {
-                sessionStorage.removeItem('organicAdminAuth');
-                location.reload();
-            });
-        }
+        // Where the APIs run. Change these if you deploy the admin API somewhere else.
+        window.ADMIN_API_URL = "http://127.0.0.1:8000";
+        window.PUBLIC_API_URL = "http://127.0.0.1:8001";
     </script>
+    <script src="admin.js"></script>
 
     <script>
         /* إضافات الواجهة والإحصائيات */

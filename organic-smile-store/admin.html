@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم | ORGANIC Smile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --gold: #C9A961;
+            --gold-light: #E5C78B;
+            --bg: #0b0b0a;
+            --surface: #151513;
+            --surface-2: #1d1d1a;
+            --line: rgba(201, 169, 97, 0.22);
+            --danger: #e62227;
+            --text: #f4f1ea;
+            --muted: #9b9686;
+        }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg) !important;
+            color: var(--text) !important;
+            padding: 0 !important;
+            margin: 0;
+            font-family: 'Tajawal', sans-serif;
+            line-height: 1.6;
+        }
+
+        /* شاشة تسجيل الدخول */
+        #lockScreen {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: var(--bg);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .locked #lockScreen { display: flex; }
+        .locked .admin-topbar, .locked .admin-wrapper { display: none !important; }
+        .lock-box {
+            width: 100%;
+            max-width: 380px;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            padding: 34px 28px;
+            text-align: center;
+        }
+        .lock-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 16px;
+            display: grid;
+            place-items: center;
+            font-size: 26px;
+            color: var(--gold);
+            background: var(--surface-2);
+            border-radius: 50%;
+        }
+        .lock-box h1 { color: var(--gold); font-size: 22px; margin: 0 0 6px; }
+        .lock-box p { color: var(--muted); font-size: 14px; margin: 0 0 20px; }
+        .lock-box input {
+            width: 100%;
+            padding: 12px 14px;
+            background: #000;
+            border: 1px solid var(--line);
+            color: #fff;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 15px;
+            text-align: center;
+        }
+        .lock-box input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.18); }
+        .lock-error { color: #ff6b6f; font-size: 14px; min-height: 22px; margin-top: 12px; }
+        .lock-back { display: inline-block; margin-top: 18px; color: var(--muted); font-size: 14px; text-decoration: none; }
+        .lock-back:hover { color: var(--gold-light); }
+
+        /* الشريط العلوي */
+        .admin-topbar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(11, 11, 10, 0.92);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--line);
+        }
+        .topbar-inner {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 12px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .topbar-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 18px;
+            color: var(--gold);
+        }
+        .brand img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--gold);
+        }
+        .brand small {
+            display: block;
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--muted);
+        }
+        .back-link {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: none;
+            font-family: inherit;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background .2s, color .2s;
+        }
+        .back-link:hover { background: var(--gold); color: #000; }
+
+        .admin-nav {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 0 5% 10px;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+        }
+        .admin-nav a {
+            white-space: nowrap;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 14px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            transition: color .2s, background .2s;
+        }
+        .admin-nav a:hover { color: var(--gold-light); background: var(--surface-2); }
+
+        /* المحتوى */
+        .admin-wrapper {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 30px 5% 60px;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .stats-strip {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+        .stat {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .stat i {
+            font-size: 22px;
+            color: var(--gold);
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            background: var(--surface-2);
+            border-radius: 12px;
+        }
+        .stat strong { display: block; font-size: 28px; line-height: 1.1; color: var(--text); }
+        .stat span { font-size: 13px; color: var(--muted); }
+
+        .admin-card {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            padding: 28px;
+            border-radius: 16px;
+            scroll-margin-top: 130px;
+        }
+        .admin-card h2 {
+            color: var(--gold);
+            margin: 0 0 6px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card-hint {
+            color: var(--muted);
+            font-size: 14px;
+            margin: 0 0 22px;
+        }
+        .admin-card h3 {
+            color: var(--gold-light) !important;
+            font-size: 16px;
+        }
+
+        .form-group { margin-bottom: 18px; }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--gold-light);
+            font-weight: 700;
+            font-size: 15px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            background: #000;
+            border: 1px solid var(--line);
+            color: #fff;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 15px;
+            transition: border-color .2s, box-shadow .2s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.18);
+        }
+        .form-group input[type="file"] {
+            padding: 10px;
+            border-style: dashed;
+            cursor: pointer;
+            color: var(--muted);
+        }
+        .form-group input[type="file"]::file-selector-button {
+            background: var(--gold);
+            color: #000;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-family: inherit;
+            font-weight: 700;
+            margin-inline-end: 12px;
+            cursor: pointer;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, #d9bb72, #b8924a);
+            color: #000;
+            border: none;
+            padding: 13px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-family: inherit;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform .15s, box-shadow .2s;
+        }
+        .btn-submit:hover { box-shadow: 0 6px 20px rgba(201, 169, 97, 0.3); }
+        .btn-submit:active { transform: scale(0.98); }
+
+        .btn-reset {
+            background: transparent;
+            color: #ff6b6f;
+            border: 1px solid rgba(230, 34, 39, 0.5);
+            padding: 11px 15px;
+            border-radius: 999px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+            font-weight: bold;
+            font-family: inherit;
+            transition: background .2s, color .2s;
+        }
+        .btn-reset:hover { background: var(--danger); color: #fff; }
+
+        .btn-add-size {
+            background: transparent;
+            color: var(--gold);
+            border: 1px dashed var(--gold);
+            padding: 9px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: inherit;
+            margin-bottom: 6px;
+            display: inline-block;
+            transition: background .2s;
+        }
+        .btn-add-size:hover { background: rgba(201, 169, 97, 0.12); }
+
+        .size-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .size-row input { flex: 1; }
+
+        .preview-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .preview-grid img {
+            width: 76px;
+            height: 76px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid var(--line);
+        }
+        .preview-grid.single img { width: 140px; height: auto; max-height: 100px; }
+
+        .list-search {
+            width: 100%;
+            padding: 11px 14px;
+            margin-top: 8px;
+            background: #000;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            color: #fff;
+            font-family: inherit;
+        }
+        .list-search:focus { outline: none; border-color: var(--gold); }
+
+        .items-list { margin-top: 15px; }
+        .items-list:empty::before {
+            content: "لا توجد عناصر مضافة بعد";
+            display: block;
+            text-align: center;
+            color: var(--muted);
+            padding: 22px;
+            border: 1px dashed var(--line);
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            background: #000;
+            border: 1px solid transparent;
+            padding: 12px 14px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            transition: border-color .2s;
+        }
+        .item-row:hover { border-color: var(--line); }
+        .btn-delete {
+            background: rgba(230, 34, 39, 0.12);
+            color: #ff6b6f;
+            border: 1px solid rgba(230, 34, 39, 0.4);
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background .2s, color .2s;
+        }
+        .btn-delete:hover { background: var(--danger); color: #fff; }
+
+        .category-badge {
+            background: var(--gold);
+            color: #000;
+            padding: 2px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            margin-right: 8px;
+            font-weight: bold;
+        }
+
+        :focus-visible { outline: 2px solid var(--gold-light); outline-offset: 2px; }
+        @media (max-width: 600px) {
+            .admin-card { padding: 20px; }
+            .size-row { flex-direction: column; }
+            .stat strong { font-size: 24px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; scroll-behavior: auto !important; }
+        }
+    </style>
+
+    <!-- نظام الحماية وكلمة المرور -->
+    <script>
+        var ADMIN_PASS = "rasha1234"; // كلمة المرور الخاصة بك
+        if (sessionStorage.getItem("organicAdminAuth") !== "true") {
+            document.documentElement.classList.add("locked");
+        }
+    </script>
+</head>
+<body class="locked">
+
+    <!-- شاشة إدخال كلمة المرور للآدمن -->
+    <div id="lockScreen" role="dialog" aria-labelledby="lockTitle">
+        <div class="lock-box">
+            <div class="lock-icon"><i class="fa-solid fa-lock"></i></div>
+            <h1 id="lockTitle">منطقة الإدارة المحمية</h1>
+            <p id="lockMsg">أدخل كلمة مرور المسؤول للمتابعة</p>
+            <form id="lockForm" onsubmit="checkPassword(event)">
+                <input type="password" id="lockPass" placeholder="كلمة المرور..." required autocomplete="current-password">
+                <button type="submit" class="btn-submit" id="lockBtn" style="margin-top: 14px;">دخول</button>
+            </form>
+            <div class="lock-error" id="lockError" role="alert"></div>
+            <a href="index.html" class="lock-back">العودة للموقع الرئيسي</a>
+        </div>
+    </div>
+
+    <header class="admin-topbar">
+        <div class="topbar-inner">
+            <div class="brand">
+                <img src="logo.jpg" alt="ORGANIC Smile" onerror="this.style.display='none'">
+                <div>لوحة التحكم<small>ORGANIC Smile</small></div>
+            </div>
+            <div class="topbar-actions">
+                <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-right"></i> العودة للموقع</a>
+                <button type="button" class="back-link" id="logoutBtn" style="border-color: #e62227; color: #ff6b6f;"><i class="fa-solid fa-right-from-bracket"></i> قفل الصفحة</button>
+            </div>
+        </div>
+        <nav class="admin-nav">
+            <a href="#heroSection"><i class="fa-solid fa-image"></i> الواجهة</a>
+            <a href="#offersSection"><i class="fa-solid fa-bullhorn"></i> العروض</a>
+            <a href="#productsSection"><i class="fa-solid fa-box-open"></i> المنتجات</a>
+        </nav>
+    </header>
+
+    <div class="admin-wrapper">
+
+        <!-- إحصائيات سريعة -->
+        <div class="stats-strip">
+            <div class="stat"><i class="fa-solid fa-box-open"></i><div><strong id="statProducts">0</strong><span>منتج في المتجر</span></div></div>
+            <div class="stat"><i class="fa-solid fa-bullhorn"></i><div><strong id="statOffers">0</strong><span>عرض في الشريط</span></div></div>
+        </div>
+
+        <!-- 1. التحكم في الواجهة (Hero Section) -->
+        <div class="admin-card" id="heroSection">
+            <h2><i class="fa-solid fa-pen-to-square"></i> التحكم في واجهة الموقع</h2>
+            <p class="card-hint">غيّر العنوان والصور اللي بتظهر أول ما الزائر يفتح المتجر.</p>
+            <form id="heroForm">
+                <div class="form-group">
+                    <label>العنوان الرئيسي (أو اتركه فارغاً إذا كنت ستضع صورة):</label>
+                    <input type="text" id="heroTitleInput" placeholder="مثال: فخامة الطبيعة في كل قضمة">
+                </div>
+                <div class="form-group">
+                    <label>صورة بدل العنوان (اختياري - يظهر كبانر بدلاً من النص):</label>
+                    <input type="file" id="heroTitleImgInput" accept="image/*" data-preview="previewHeroTitle">
+                    <div class="preview-grid single" id="previewHeroTitle"></div>
+                </div>
+                <div class="form-group">
+                    <label>تغيير الصورة الرئيسية المجاورة للعنوان من جهازك:</label>
+                    <input type="file" id="heroMainImgInput" accept="image/*" data-preview="previewHeroMain">
+                    <div class="preview-grid single" id="previewHeroMain"></div>
+                </div>
+                <button type="submit" class="btn-submit">حفظ تغييرات الواجهة</button>
+                <button type="button" id="removeHeroImgsBtn" class="btn-reset">إزالة صور الواجهة المخصصة وإعادة الشكل الافتراضي</button>
+            </form>
+        </div>
+
+        <!-- 2. التحكم في شريط العروض -->
+        <div class="admin-card" id="offersSection">
+            <h2><i class="fa-solid fa-bullhorn"></i> التحكم في شريط العروض المتحرك</h2>
+            <p class="card-hint">النصوص دي بتتحرك في الشريط العلوي للمتجر.</p>
+            <form id="addOfferForm">
+                <div class="form-group">
+                    <label>اكتب نص العرض الذي يتحرك في الشريط العلوي:</label>
+                    <input type="text" id="offerText" placeholder="مثال: شحن مجاني للطلبات فوق 700 ج.م" required>
+                </div>
+                <button type="submit" class="btn-submit">إضافة العرض للشريط</button>
+            </form>
+
+            <h3 style="margin-top: 24px;">العروض المضافة حالياً:</h3>
+            <div class="items-list" id="offersList"></div>
+        </div>
+
+        <!-- 3. إضافة منتج جديد بأحجام وأسعار وصور متعددة -->
+        <div class="admin-card" id="productsSection">
+            <h2><i class="fa-solid fa-box-open"></i> إضافة منتج جديد للمتجر</h2>
+            <p class="card-hint">أضف المنتج بأكتر من حجم وسعر وكذا صورة.</p>
+            <form id="addProductForm">
+                <div class="form-group">
+                    <label>اسم المنتج:</label>
+                    <input type="text" id="pName" placeholder="مثال: مانجو مجفف فاخر" required>
+                </div>
+                <div class="form-group">
+                    <label>اختر قسم المنتج:</label>
+                    <select id="pCategory" required>
+                        <option value="dried">فواكه مجففة</option>
+                        <option value="powder">بودر طبيعي</option>
+                    </select>
+                </div>
+
+                <!-- خيارات الأحجام والأسعار المتعددة -->
+                <div class="form-group">
+                    <label>الأحجام والأسعار:</label>
+                    <div id="sizesContainer">
+                        <div class="size-row">
+                            <input type="text" placeholder="الحجم (مثال: 250 جرام)" class="size-name" required>
+                            <input type="number" placeholder="السعر (ج.م)" class="size-price" required>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add-size" id="addSizeBtn">+ إضافة حجم آخر</button>
+                </div>
+
+                <!-- الصور المتعددة للمنتج -->
+                <div class="form-group">
+                    <label>اختر صور المنتج من جهازك (يمكنك تحديد أكثر من صورة معاً):</label>
+                    <input type="file" id="pFiles" accept="image/*" multiple required data-preview="previewProduct">
+                    <div class="preview-grid" id="previewProduct"></div>
+                </div>
+
+                <button type="submit" class="btn-submit">إضافة المنتج للموقع</button>
+            </form>
+
+            <h3 style="margin-top: 24px;">المنتجات المضافة حالياً:</h3>
+            <input type="search" class="list-search" id="productSearch" placeholder="ابحث في المنتجات...">
+            <div class="items-list" id="productsList"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        /* دالة التحقق من كلمة المرور */
+        function checkPassword(e) {
+            e.preventDefault();
+            var passInput = document.getElementById('lockPass');
+            var errDiv = document.getElementById('lockError');
+            
+            if (passInput.value === ADMIN_PASS) {
+                sessionStorage.setItem("organicAdminAuth", "true");
+                document.documentElement.classList.remove("locked");
+                document.body.classList.remove("locked");
+                errDiv.textContent = "";
+            } else {
+                errDiv.textContent = 'كلمة المرور غير صحيحة، حاول مرة أخرى.';
+                passInput.value = '';
+                passInput.focus();
+            }
+        }
+
+        /* زر الخروج وقفل الصفحة */
+        var logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function () {
+                sessionStorage.removeItem('organicAdminAuth');
+                location.reload();
+            });
+        }
+    </script>
+
+    <script>
+        /* إضافات الواجهة والإحصائيات */
+        (function () {
+            document.querySelectorAll('input[type="file"][data-preview]').forEach(function (input) {
+                input.addEventListener('change', function () {
+                    var box = document.getElementById(input.dataset.preview);
+                    box.innerHTML = '';
+                    Array.from(input.files).forEach(function (file) {
+                        var img = document.createElement('img');
+                        img.src = URL.createObjectURL(file);
+                        img.alt = file.name;
+                        img.onload = function () { URL.revokeObjectURL(img.src); };
+                        box.appendChild(img);
+                    });
+                });
+            });
+
+            function countRows(listId, statId) {
+                var list = document.getElementById(listId);
+                var stat = document.getElementById(statId);
+                if (!list || !stat) return;
+                var update = function () { stat.textContent = list.querySelectorAll('.item-row').length; };
+                new MutationObserver(update).observe(list, { childList: true, subtree: true });
+                update();
+            }
+            countRows('productsList', 'statProducts');
+            countRows('offersList', 'statOffers');
+
+            var search = document.getElementById('productSearch');
+            if (search) {
+                search.addEventListener('input', function () {
+                    var q = search.value.trim().toLowerCase();
+                    document.querySelectorAll('#productsList .item-row').forEach(function (row) {
+                        row.style.display = row.textContent.toLowerCase().indexOf(q) === -1 ? 'none' : '';
+                    });
+                });
+            }
+
+            var addProdForm = document.getElementById('addProductForm');
+            if (addProdForm) {
+                addProdForm.addEventListener('submit', function () {
+                    setTimeout(function () { document.getElementById('previewProduct').innerHTML = ''; }, 300);
+                });
+            }
+        })();
+    </script>
+</body>
+</html>

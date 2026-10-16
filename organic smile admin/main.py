@@ -22,16 +22,20 @@ from pymongo import MongoClient
 load_dotenv()
 
 DB_NAME = os.environ.get("MONGO_DB", "organic_smile")
-ORIGINS = [o.strip() for o in os.environ.get(
-    "ALLOWED_ORIGINS",
-    "http://127.0.0.1:5500,http://localhost:5500,http://127.0.0.1:5501,http://localhost:5501",
-).split(",") if o.strip()]
+
+# ---------- CORS (fully open for local admin) ----------
+app = FastAPI(title="ORGANIC Smile admin API")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 CATEGORIES = {"dried", "powder"}
 MAX_IMAGE_BYTES = 2 * 1024 * 1024
-
-app = FastAPI(title="ORGANIC Smile admin API")
-app.add_middleware(CORSMiddleware, allow_origins=ORIGINS, allow_credentials=True,
-                   allow_methods=["*"], allow_headers=["*"])
 
 _client: Optional[MongoClient] = None
 

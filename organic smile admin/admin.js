@@ -38,7 +38,16 @@
                 headers: { 'X-Admin-Token': token, ...(opts.json ? { 'Content-Type': 'application/json' } : {}) },
                 body: opts.json ? JSON.stringify(opts.json) : undefined
             });
-        } catch (e) { throw new Error('تعذر الاتصال بالخادم. تأكد من تشغيل main.py على ' + ADMIN_API); }
+        } catch (e) {
+            console.error('Admin API unreachable:', ADMIN_API, e);
+            throw new Error(
+                'تعذر الاتصال بالخادم.\n' +
+                '1. افتح ترمينال في مجلد "organic smile admin"\n' +
+                '2. شغّل: uvicorn main:app --port 8000 --reload\n' +
+                '3. تأكد أن .env يحتوي على MONGO_URI_WRITE و ADMIN_TOKEN\n' +
+                'العنوان الحالي: ' + ADMIN_API
+            );
+        }
         if (res.status === 401 && !retried) { sessionStorage.removeItem('adminToken'); return adminFetch(path, opts, true); }
         const data = await res.json().catch(() => ({}));
         if (!res.ok) {

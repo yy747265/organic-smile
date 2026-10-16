@@ -183,7 +183,7 @@
             background: #000;
             border: 1px solid var(--line);
             color: #fff;
-            border-radius: 10px;
+            border-radius: 10phttp://127.0.0.1:8000x;
             font-family: inherit;
             font-size: 15px;
             transition: border-color .2s, box-shadow .2s;
@@ -205,7 +205,7 @@
             border: none;
             padding: 6px 14px;
             border-radius: 999px;
-            font-family: inherit;
+            font-family: inherhttp://127.0.0.1:8000it;
             font-weight: 700;
             margin-inline-end: 12px;
             cursor: pointer;
@@ -439,7 +439,7 @@
                     <label>الأحجام والأسعار:</label>
                     <div id="sizesContainer">
                         <div class="size-row">
-                            <input type="text" placeholder="الحجم (مثال: 250 جرام)" class="size-name" required>
+                            <ihttp://127.0.0.1:8000nput type="text" placeholder="الحجم (مثال: 250 جرام)" class="size-name" required>
                             <input type="number" placeholder="السعر (ج.م)" class="size-price" required>
                         </div>
                     </div>
@@ -464,9 +464,13 @@
 
     <!-- ربط الملفات البرمجية -->
     <script>
-        // Where the APIs run. Change these if you deploy the admin API somewhere else.
-        window.ADMIN_API_URL = "http://127.0.0.1:8000";
-        window.PUBLIC_API_URL = "http://127.0.0.1:8001";
+        // Admin API MUST stay local (it has write access).
+        // Public API is used only for loading images — point it to Vercel when not on localhost.
+        const isLocal = ["localhost", "127.0.0.1", ""].includes(location.hostname);
+        window.ADMIN_API_URL  = "http://127.0.0.1:8000";          // always local
+        window.PUBLIC_API_URL = isLocal
+            ? "http://127.0.0.1:8001"                             // local public API
+            : "https://organic-smile-api.vercel.app";             // live Vercel
     </script>
     <script src="admin.js"></script>
 
@@ -484,7 +488,7 @@
                         img.onload = function () { URL.revokeObjectURL(img.src); };
                         box.appendChild(img);
                     });
-                });
+                });http://127.0.0.1:8000
             });
 
             function countRows(listId, statId) {
